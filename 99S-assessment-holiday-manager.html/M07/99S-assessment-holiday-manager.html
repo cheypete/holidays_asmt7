@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html><head>
+    <title>Assessment: Holiday Manager</title>
+    <meta name="markdown-src" content="/Advanced-Python/99S-assessment-holiday-manager.md">
+    <link rel="stylesheet" href="../bootstrap.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="../fontawesome-pro/css/all.css">
+    <link rel="stylesheet" href="../base.css">
+    <base target="_blank">
+</head>
+<body>
+<h2 id="introduction">Introduction</h2>
+<p>Martin Luther King Day, Presidents Day, St. Patrick's Day, Easter, May Day, Independence Day for multiple cultures, International Talk Like a Pirate Day... these are just some of the many holidays out there.</p>
+<p>You will be designing a text-based application to track holidays.</p>
+<h2 id="high-level-requirements">High-Level Requirements</h2>
+<p>The application user is a member of the marketing team.</p>
+<ul>
+<li>The admin needs to be able to manage holidays in an easy-to-use interface.</li>
+<li>The admin already knows about <a href="assets/files/holidays.json">a starting JSON file named holidays.json</a> and appreciates that we have seeded the application with a base of holidays.</li>
+<li>They want all of the holidays from <a href="https://www.timeanddate.com/holidays/us/">https://www.timeanddate.com/holidays/us/</a> to also be preloaded.</li>
+</ul>
+<blockquote>
+<p>Only preload holidays with concrete dates. Do not calculate holiday dates. The team expects you to include holidays from the present year, 2 years of past holidays, and 2 years of future holidays.</p>
+</blockquote>
+<ul>
+<li>The holidays must be saved in JSON, following the formatting of the provided file</li>
+</ul>
+<h2 id="sample-ui">Sample UI</h2>
+<p>This is a sample UI which you can use as your base UI. While your UI may be different, make sure functionality outlined in the sample UI is accounted for in your UI.</p>
+<h3 id="start-up">Start Up</h3>
+<pre><code class="language-console">Holiday Management
+===================
+There are 10 holidays stored in the system.
+</code></pre>
+<h3 id="main-menu">Main Menu</h3>
+<pre><code class="language-console">Holiday Menu
+================
+1. Add a Holiday
+2. Remove a Holiday
+3. Save Holiday List
+4. View Holidays
+5. Exit
+</code></pre>
+<h3 id="add-a-holiday">Add a Holiday</h3>
+<pre><code class="language-console">Add a Holiday
+=============
+Holiday: Internat'l Talk Like a Pirate Day
+Date: 20210-09-19
+
+Error:
+Invalid date.  Please try again.
+
+Date for Internat'l Talk Like a Pirate Day: 2021-09-19
+
+Success:
+Internat'l Talk Like a Pirate Day (2021-09-19) has been added to the holiday list.
+</code></pre>
+<h3 id="remove-a-holiday">Remove a Holiday</h3>
+<pre><code class="language-console">Remove a Holiday
+================
+Holiday Name: International Talk Like a Pirate Day
+
+Error: 
+International Talk Like a Pirate Day not found.
+
+Holiday Name: Internat'l Talk Like a Pirate Day
+
+Success:
+Internat'l Talk Like a Pirate Day has been removed from the holiday list.
+</code></pre>
+<h3 id="save-holiday-list">Save Holiday List</h3>
+<pre><code class="language-console">Saving Holiday List
+====================
+Are you sure you want to save your changes? [y/n]: n
+
+Canceled:
+Holiday list file save canceled.
+
+Are you sure you want to save your changes? [y/n]: y
+
+Success:
+Your changes have been saved.
+</code></pre>
+<h3 id="view-holidays">View Holidays</h3>
+<pre><code class="language-console">View Holidays
+=================
+Which year?: 2021
+Which week? #[1-52, Leave blank for the current week]: 2
+
+These are the holidays for 2021 week #2:
+Margaret Thatcher Day (2020-01-10)
+World Sketchnote Day (2021-01-11)
+Zanzibar Revolution Day (2021-01-12)
+National Rubber Ducky Day (2021-01-13)
+Tamil Thai Pongal Day (2021-01-14)
+National Bagel Day (2021-01-15)
+Signing of the Peace Accords (2021-01-16)
+</code></pre>
+<p>For the current week, the user should have an option to indicate whether they want to see the weather as well.</p>
+<pre><code class="language-console">View Holidays
+=================
+Which year?: 2021
+Which week? #[1-52, Leave blank for the current week]: 
+Would you like to see this week's weather? [y/n]: y
+
+These are the holidays for this week:
+Margaret Thatcher Day (2020-01-10) - Sunny
+World Sketchnote Day (2021-01-11) - Partly cloudy
+Zanzibar Revolution Day (2021-01-12) - Thunderstorms
+National Rubber Ducky Day (2021-01-13) - Partly cloudy
+Tamil Thai Pongal Day (2021-01-14) - Partly cloudy
+National Bagel Day (2021-01-15) - Scattered thunderstorms
+Signing of the Peace Accords (2021-01-16) - Sunny
+</code></pre>
+<h3 id="exit">Exit</h3>
+<p>If there are no changes to be saved:</p>
+<pre><code class="language-console">Exit
+=====
+Are you sure you want to exit? [y/n] y
+
+Goodbye!
+</code></pre>
+<p>If there are changes to be saved:</p>
+<pre><code class="language-console">Exit
+=====
+Are you sure you want to exit? 
+Your changes will be lost.
+[y/n] y
+
+Goodbye!
+</code></pre>
+<h2 id="technical-requirements">Technical Requirements</h2>
+<blockquote>
+<p>Do not use <code>pandas</code>. If you use <code>pandas</code> for this assessment, you will have to refactor your code.</p>
+</blockquote>
+<ul>
+<li>Use the provided <a href="holiday_startercode.py" target="_self">starter code</a> which includes pseudo-code and some instructions so instructional staff can automatically test your code. You may need more functions than the provided functions in the starter code.</li>
+<li>There is a starting JSON file named <a href="assets/files/holidays.json" target="_self">holidays.json</a> to give you an idea of what kind of data will be used.</li>
+<li>Holidays should be represented as objects in Python.</li>
+<li>The List of Holidays should be represented as an object in Python - see starter code for details.</li>
+<li>The holiday class should include a way to display a holiday in the following format:</li>
+</ul>
+<pre><code class="language-console">Holiday Name (Date)
+</code></pre>
+<ul>
+<li><strong>Optional:</strong> Use a lambda expression for printing out holidays for a selected week.</li>
+<li>Use flowcharts or pseudo code to visualize the design plan for your application based on your interpretation of the starter code.</li>
+<li>Use a config.py file to store your URLs and credentials and specifically exclude the config file from GitHub. See the <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=7044&amp;type=content&amp;rcode=876441C2-EB5F-48AC-835D-4B82B30E744C-8031" target="_self">GitHub For Groups Tips and Tricks Resource</a> for a refresher.</li>
+</ul>
+<h2 id="approach">Approach</h2>
+<ul>
+<li>Objects are commonly used when working with formatted data - such as JSON or XML.</li>
+<li>These are questions that should be answered by demonstrating them in your code:
+<ul>
+<li>What is a lambda expression? <strong>(Optional)</strong></li>
+<li>What are classes?</li>
+<li>How do you use Beautiful Soup for web scraping?</li>
+<li>How do you consume an API?</li>
+<li>How do you store data in JSON?</li>
+</ul>
+</li>
+</ul>
+<h2 id="stretch-goals">Optional/Stretch Goals</h2>
+<ul>
+<li>With the holidays approaching, the marketing person may want to know what the weather looks like so they can determine what to market more. Use a weather API to show what the weather looks like for the current period. (See the notes below for details.) We recommend <a href="https://rapidapi.com/community/api/open-weather-map">Open Weather Map API</a>, but you are free to use any weather API you would like.</li>
+<li>Allow searching for a single date and return all holidays for that date.</li>
+<li>Add tags for holidays to find things such as food-related holidays, religious holidays, and cultural holidays. Then, allow for searching for all holidays by tag.</li>
+<li>Save the file in another (additional) file format.
+<ul>
+<li>This would require a way for the user to specify which format to save in. JSON <strong>must</strong> be implemented. An additional file format is the stretch part.</li>
+</ul>
+</li>
+<li>Calculate dates for variable holidays - such as Mother's Day, Father's Day, Easter, and Election Day (<strong>Difficult stretch goal</strong>).
+<ul>
+<li>Some of the stretch goals will require you to change your menu and menu logic as well as add functions to the HolidayList Class.</li>
+</ul>
+</li>
+</ul>
+<p></p>
+<!-- Start of stage3talent Zendesk Widget script -->
+<p>
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=55930627-9dee-46cb-a2a2-db5321313273"></script>
+</p>
+<!-- End of stage3talent Zendesk Widget script -->
+</body></html>
