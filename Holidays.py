@@ -4,14 +4,26 @@ from datetime import date, datetime as dt
 import requests
 import json
 
+# -------------------------------------------
+# Modify the holiday class to 
+# 1. Only accept Datetime objects for date.
+# 2. You may need to add additional functions
+# 3. You may drop the init if you are using @dataclasses
+# --------------------------------------------
+
 @dataclass
 class Holiday:
     name: str
     date: dt.date
     
     def __str__(self):
-        return f'{self.name}: ({self.date})'
-        # " (" + self.date.strftime("%Y-%m-%d") + ")"
+        return f'{self.name}: ({self.date.strftime("%Y-%m-%d")})'
+
+# -------------------------------------------
+# The HolidayList class acts as a wrapper and container
+# For the list of holidays
+# Each method has pseudo-code instructions
+# --------------------------------------------
 
 @dataclass
 class HolidayList:
@@ -85,7 +97,7 @@ class HolidayList:
         except:
             print(f'Error: Could not read file.')
     
-    def save_to_json(self, newFilename):
+    def save_to_json(self, filelocation):
         # Write out json file to selected file.
         print('Save Holiday List\n')
         print('<><><><><><><><><><><><><>\n')
@@ -94,13 +106,13 @@ class HolidayList:
             saveChoice = input('Do you wish to save your changes? [Y/N]: \n').upper()
         
             if saveChoice == 'Y':
-                with open(newFilename + '.json', 'w') as jsonFile:    
-                    holidays = {'holidays': []}
+                with open(filelocation + '.json', 'w') as jsonFile:    
+                    holidays = {'results': []}
                     for holiday in self.innerHolidays:
-                        holidays['holidays'].append(holiday.__dict__)
+                        holidays['results'].append(holiday.__dict__)
                     jsonFile.write(json.dumps(holidays, indent = 2, default = str))
                     
-                print(f'Your changes have been saved to {newFilename}.json')
+                print(f'Your changes have been saved to {filelocation}.json')
                 break
                 
             elif saveChoice == 'N':
@@ -118,8 +130,8 @@ class HolidayList:
         try:
             for i in range(2020, 2025):
                 url = f"https://www.timeanddate.com/holidays/us/{str(i)}?hol=9565233"
-                response = requests.get(url).text
-                soup = BeautifulSoup(response, 'html.parser')
+                results = requests.get(url).text
+                soup = BeautifulSoup(results, 'html.parser')
             
                 holidays = soup.find_all("tr", class_="showrow")
                 
@@ -138,9 +150,9 @@ class HolidayList:
         
         currentWeek = (dt.today().isocalendar()[1])
         currentYear = (dt.today().isocalendar()[0])
-        
+
         years = [int(currentYear - 2), int(currentYear - 1), int(currentYear), int(currentYear + 1), int(currentYear + 2)]
-        weeks = [x for x in range(1,53)]
+        weeks = [x for x in range(1, 53)]
 
         
         
@@ -196,7 +208,7 @@ class HolidayList:
         year = (dt.today().isocalendar()[0])
         holiList = self.filter_holidays_by_week(year, week)
         for holiday in holiList:
-            print(str(holiday) + " - " + str(holiday.date))
+            print(str(holiday) + " : " + str(holiday.date))
                  
     def numHolidays(self):
         # Return the total number of holidays in innerHolidays
@@ -210,7 +222,7 @@ class HolidayList:
         results = filter(lambda x: x.date.year == year, filter(lambda x: x.date.isocalendar()[1] == week, self.innerHolidays))
         return results
     
-    def exit():
+    def exitMenu():
                
         print('Exit\n')
         print('<><><><><><><><><><><><><>\n')
@@ -219,14 +231,13 @@ class HolidayList:
             exitChoice = input('Are you sure you wish to exit? [Y/N]: \n').upper()
             if exitChoice == 'Y':
                 print('Farewell!\n')
-                quit()
+                break
             elif exitChoice not in ['Y', 'N']:
                 print('Error: Please choose either Y or N.')
             else:
                 print(f'Returning to menu')
                 break
     
-
 def mainMenu():
     # Large Pseudo Code steps
     # -------------------------------------
@@ -266,12 +277,12 @@ def mainMenu():
         elif menuChoice == '2':
             holidaylist.removeHoliday()
         elif menuChoice == '3':
-            newFilename = input('Enter a name for the JSON file: ')
-            holidaylist.save_to_json(newFilename)
+            filelocation = input('Enter the name for the JSON file: ')
+            holidaylist.save_to_json(filelocation)
         elif menuChoice == '4':
             holidaylist.viewHolidays()
         elif menuChoice == '5':
-            HolidayList.exit()
+            HolidayList.exitMenu()
         else:
             print('Error: Input invalid.')
 mainMenu()
