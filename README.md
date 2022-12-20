@@ -11,5 +11,3 @@ The prompt for this assessment is as follows:
 			
     	-The holidays must be saved in JSON, following the formatting of the provided file
 
-This is a mostly working code with bugs in the viewHolidays and removeHolidays functions. However, one can add a holiday and save holidays by entering 'results' 
-when prompted to enter a filename.
