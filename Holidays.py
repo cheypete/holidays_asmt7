@@ -102,7 +102,7 @@ class HolidayList:
         print('Save Holiday List\n')
         print('<><><><><><><><><><><><><>\n')
     
-        while True:
+        while (True):
             saveChoice = input('Do you wish to save your changes? [Y/N]: \n').upper()
         
             if saveChoice == 'Y':
@@ -154,46 +154,47 @@ class HolidayList:
         years = [int(currentYear - 2), int(currentYear - 1), int(currentYear), int(currentYear + 1), int(currentYear + 2)]
         weeks = [x for x in range(1, 53)]
 
-        
-        
         print('View Holidays\n')
         print('<><><><><><><><><><><><><>\n')
         
-        while True:
+        while(True):
             try:
-                yearInput = int(input('Choose a year between 2020 to 2024: \n'))
-                if yearInput not in years:
-                    print('Error: Invalid input.')
-                else:
+                yearChoice = int(input('Please select a year between 2020 to 2024: '))
+                if yearChoice not in years:
+                    raise
+                else: 
                     break
             except:
-                print('Error: Invalid input.')
-
-        while True:
-            try:
-                weekInput = int('Choose a week between 1 to 52 (enter 0 for the current week): \n')
-                if int(weekInput) not in weeks and weekInput != 0:
-                    print('Error: Invalid input.')
-                else:
-                    break
-            except:
-                print('Error: Invalid input.')
+                print(f"Error: Please choose a year between 2020 to 2024.")
                 continue
-
-        if weekInput == 0:
-            print(f'These are the holidays for week {currentWeek} in {currentYear}: ')
-            self.displayHolidaysInWeek(currentYear, currentWeek)
+            
+        while(True):
+            try:
+                weekChoice = int(input('Choose a week between 1 and 52. Enter 0 for the current week: '))
+                if int(weekChoice) not in weeks and weekChoice != 0:
+                    raise
+                else:
+                    break
+            except:
+                print("Error: Invalid input.")
+                continue
+            
+        if weekChoice == 0:
+            print(f"Here are all the holidays for week {currentWeek} in {currentYear}:")
+            self.displayHolidaysinWeek(currentYear,currentWeek)
+        elif weekChoice not in range(1, 53):
+            print(f'Error: Invalid input.')
         else:
-            print(type(weekInput))
-            print(type(yearInput))
-            print(f'These are all the holidays for week {weekInput} in {yearInput}: ')
-            self.displayHolidaysInWeek(yearInput, weekInput)
+            print(type(weekChoice))
+            print(type(yearChoice))
+            print(f"Here are all the holidays for week {weekChoice} in {yearChoice}:")
+            self.displayHolidaysinWeek(yearChoice, weekChoice)
     
     def displayHolidaysinWeek(self, year, week):
         # Use your filter_holidays_by_week to get list of holidays within a week as a parameter
         # Output formated holidays in the week. 
         # * Remember to use the holiday __str__ method.
-        holiList = self.filterHolidaysbyWeek(year, week)
+        holiList = self.filter_holidays_by_week(year, week)
         for holiday in holiList:
             print(holiday)
     
@@ -226,12 +227,14 @@ class HolidayList:
                
         print('Exit\n')
         print('<><><><><><><><><><><><><>\n')
+        print('Any unsaved changes will be lost!')
     
         while True:
-            exitChoice = input('Are you sure you wish to exit? [Y/N]: \n').upper()
+            exitChoice = str(input('Are you sure you wish to exit? [Y/N]: \n')).strip().upper()
+
             if exitChoice == 'Y':
                 print('Farewell!\n')
-                break
+                return True
             elif exitChoice not in ['Y', 'N']:
                 print('Error: Please choose either Y or N.')
             else:
